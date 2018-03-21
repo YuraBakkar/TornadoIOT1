@@ -32,7 +32,11 @@ int main(int argc, char **argv){
       finish_with_error(con);
   }
   
-  int nr = mysql_num_rows(result));
+  int nr = mysql_num_rows(result);
+
+  if (mysql_query(con, "use security;")){
+    finish_with_error(con);
+  }
   
   if (nr == 0){
     if (mysql_query(con, "CREATE TABLE log(Id INT, Door INT, Dat DATETIME);CREATE TABLE params(Phone1 TEXT, Phone2 TEXT, Count INT, Time1 TIME, Time2 TIME);"))
