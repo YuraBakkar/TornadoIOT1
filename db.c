@@ -22,20 +22,22 @@ int main(int argc, char **argv){
     finish_with_error(con);
   }
   
-  if (mysql_query(con, "SELECT table_name FROM information_schema.tables WHERE table_schema = 'security' AND table_name = 'data';")) 
-  {
-      finish_with_error(con);
+  if (mysql_query(con, "SELECT table_name FROM information_schema.tables WHERE table_schema = 'security' AND table_name = 'log';")){
+    finish_with_error(con);
   }
   
   MYSQL_RES *result = mysql_store_result(con);
   
-  if (result == NULL) 
-  {
+  if (result == NULL){
       finish_with_error(con);
   }
   
-  printf ("Number of rows: %lu\n",
-        (unsigned long) mysql_num_rows(result));
+  int nr = mysql_num_rows(result));
+  
+  if (nr == 0){
+    if (mysql_query(con, "CREATE TABLE log(Id INT, Door INT, Dat DATETIME);CREATE TABLE params(Phone1 TEXT, Phone2 TEXT, Count INT, Time1 TIME, Time2 TIME);"))
+      finish_with_error(con);
+  }
   
   mysql_close(con);
   exit(0);
