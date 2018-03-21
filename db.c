@@ -34,11 +34,8 @@ int main(int argc, char **argv){
       finish_with_error(con);
   }
   
-  MYSQL_ROW row = mysql_fetch_row(result);
-  
-  if (!row) {
-    printf('qqqq\n');
-  }
+  printf ("Number of rows: %lu\n",
+        (unsigned long) mysql_num_rows(result));
   
   mysql_close(con);
   exit(0);
