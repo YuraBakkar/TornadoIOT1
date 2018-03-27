@@ -3,10 +3,10 @@
 DEBUG	= -O3
 CC	= gcc
 INCLUDE	= -I/usr/local/include
-CFLAGS	= $(DEBUG) -Wall $(INCLUDE) -Winline -pipe 'mysql_config --cflags'
+CFLAGS	= $(DEBUG) -Wall $(INCLUDE) -Winline -pipe `mysql_config --cflags`
 
 LDFLAGS	= -L/usr/local/lib
-LDLIBS    = -lwiringPi -lwiringPiDev -lpthread -lm 'mysql_config --libs'
+LDLIBS    = -lwiringPi -lwiringPiDev -lpthread -lm `mysql_config --libs`
 
 # Should not alter anything below this line
 ###############################################################################
