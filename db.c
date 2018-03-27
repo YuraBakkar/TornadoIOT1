@@ -58,10 +58,10 @@ void init_controller(){
   //openDoor = false;
   wiringPiSetup() ;
   //pullUpDnControl(1,0);
-  wiringPiISR (0, INT_EDGE_BOTH, &myInterrupt);
-  wiringPiISR (1, INT_EDGE_BOTH, &myInterrupt1);
-  wiringPiISR (3, INT_EDGE_BOTH, &myInterrupt2);
-  wiringPiISR (4, INT_EDGE_BOTH, &myInterrupt3);
+  wiringPiISR (0, INT_EDGE_BOTH, &myInterrupt1);
+  wiringPiISR (1, INT_EDGE_BOTH, &myInterrupt2);
+  wiringPiISR (3, INT_EDGE_BOTH, &myInterrupt3);
+  wiringPiISR (4, INT_EDGE_BOTH, &myInterrupt4);
   //pinMode(0,INPUT);
   openDoor1 = digitalRead(0);
   openDoor2 = digitalRead(1);
