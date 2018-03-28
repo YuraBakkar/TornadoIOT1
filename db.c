@@ -20,7 +20,7 @@ char timeString2[9];
 int checkTime(struct tm *t){
   //time ( &rawtime );
   //timeinfo = localtime ( &rawtime );
-  printf("%d:%d:%d\n",t->tm_hour,t->tm_min,t->tm_sec);
+  //printf("%d:%d:%d\n",t->tm_hour,t->tm_min,t->tm_sec);
   if ((t->tm_hour<tm1.tm_hour) || 
       ((t->tm_hour==tm1.tm_hour) && (t->tm_min<tm1.tm_min)) || 
       ((t->tm_hour==tm1.tm_hour) && (t->tm_min==tm1.tm_min) && (t->tm_sec<=tm1.tm_sec)) ||
@@ -36,14 +36,14 @@ int checkTime(struct tm *t){
 void checkDoors(int d){
   openDoor[d-1] = !openDoor[d-1];
   if ( openDoor[d-1]  )  
-    printf("Door %d is opened...",d);
+    fprintf(stdout,"Door %d is opened...",d);
   else
-    printf("Door %d is closed...",d);
+    fprintf(stdout,"Door %d is closed...",d);
   time ( &rawtime );
   timeinfo = localtime ( &rawtime );
   //printf("%d:%d:%d\n",timeinfo.tm_hour,timeinfo.tm_min,timeinfo.tm_sec);
   if (checkTime(timeinfo)){
-    printf ("time=%s\n", asctime(timeinfo));
+    printf (stdout,"time=%s\n", asctime(timeinfo));
   }
 }
 
@@ -75,7 +75,7 @@ void init_controller(){
   openDoor[1] = digitalRead(1);
   openDoor[2] = digitalRead(2);
   openDoor[3] = digitalRead(3);
-  printf("1-%d; 2-%d; 3-%d; 4-%d\n\n",openDoor[0],openDoor[1],openDoor[2],openDoor[3]);
+  fprintf(stdout,"1-%d; 2-%d; 3-%d; 4-%d\n\n",openDoor[0],openDoor[1],openDoor[2],openDoor[3]);
   pullUpDnControl(0,PUD_UP);
   pullUpDnControl(1,PUD_UP);
   pullUpDnControl(2,PUD_UP);
