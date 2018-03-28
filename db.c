@@ -36,9 +36,9 @@ int checkTime(struct tm *t){
 void checkDoors(int d){
   openDoor[d-1] = !openDoor[d-1];
   if ( openDoor[d-1]  )  
-    printf("Door %d is opened...",openDoor[d-1]);
+    printf("Door %d is opened...",d);
   else
-    printf("Door %d is closed...",openDoor[d-1]);
+    printf("Door %d is closed...",d);
   time ( &rawtime );
   timeinfo = localtime ( &rawtime );
   //printf("%d:%d:%d\n",timeinfo.tm_hour,timeinfo.tm_min,timeinfo.tm_sec);
