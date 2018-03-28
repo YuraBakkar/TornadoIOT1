@@ -21,6 +21,8 @@ char doorName4[SIZE];
 char timeString1[9];
 char timeString2[9];
 
+int fd;  // COM File descriptor
+
 int checkTime(struct tm *t){
   //time ( &rawtime );
   //timeinfo = localtime ( &rawtime );
@@ -37,6 +39,86 @@ int checkTime(struct tm *t){
     return 0;
 }
 
+void initCOM(){
+  fd = open("/dev/ttyS3", O_RDWR | O_NOCTTY | O_NDELAY);
+  if (fd == -1)
+  {
+    perror("open_port: Unable to open /dev/ttyUSB0 - ");
+  }
+  else
+    fcntl(fd, F_SETFL, FNDELAY);
+
+  printf ( "In Open port fd = %i\n", fd); 
+
+  // Read the configureation of the port
+
+  struct termios options;
+  tcgetattr( fd, &options );
+
+  /* SEt Baud Rate */
+
+  cfsetispeed( &options, B115200 );
+  cfsetospeed( &options, B115200 );
+
+  //I don't know what this is exactly
+
+  options.c_cflag |= ( CLOCAL | CREAD );
+
+  // Set the Charactor size
+
+  options.c_cflag &= ~CSIZE; /* Mask the character size bits */
+  options.c_cflag |= CS8;    /* Select 8 data bits */
+
+  // Set parity - No Parity (8N1)
+
+  options.c_cflag &= ~PARENB;
+  options.c_cflag &= ~CSTOPB;
+  options.c_cflag &= ~CSIZE;
+  options.c_cflag |= CS8;
+
+  options.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
+
+  // Disable Software Flow control
+
+  options.c_iflag &= ~(IXON | IXOFF | IXANY);
+
+  // Chose raw (not processed) output
+
+  options.c_oflag &= ~OPOST;
+
+  if ( tcsetattr( fd, TCSANOW, &options ) == -1 )
+    printf ("1Error with tcsetattr = %s\n", strerror ( errno ) );
+  else
+    printf ( "%s\n", "tcsetattr succeed" );
+
+  fcntl(fd, F_SETFL, FNDELAY);
+
+}
+
+void sendSMS(){
+  
+}
+
+void callPhone(int p){
+  char callBegin[]={"atd"};
+  char callEnd[]={";\r"};
+  char b[SIZE];
+  strcpy(b,callBegin);  
+  if (p==1){
+    strcat(b,phone1);
+  }
+  else {
+    strcat(b, phone2);
+  }
+  strcat(b,callEnd);
+  int n = write(fd, b, strlen(b));
+  if (n < 0)
+    fputs("call failed!\n", stderr);
+  else
+    fprintf(stdout,"Call succeed n  = %i\n", n );
+  sleep(5);
+}
+
 void checkDoors(int d){
   openDoor[d-1] = !openDoor[d-1];
   if ( openDoor[d-1]  )  
@@ -48,6 +130,8 @@ void checkDoors(int d){
   //printf("%d:%d:%d\n",timeinfo.tm_hour,timeinfo.tm_min,timeinfo.tm_sec);
   if (checkTime(timeinfo)){
     fprintf (stdout,"time=%s\n", asctime(timeinfo));
+    if (strlen(phone1))
+      callPhone(1);
   }
   fflush(stdout);
 }
@@ -171,13 +255,22 @@ void close_db(MYSQL *con){
 
 int main(int argc, char **argv){
   MYSQL *con = mysql_init(NULL);
+  int n;
+  char buf[1000]={"\0"};
+  
   init_db(con);
   init_controller();
+  initCOM();
   
   while(1){
-    //a = digitalRead(0);
-    //printf("a=%d\n",a);
-    delay(100);
+    n = read( fd, buf, sizeof(buf) );
+
+    if(n>0)
+    {   
+      printf("%s", buf);    
+      fflush(stdout);
+    }
+    //delay(100);
   }
   
   close_db(con);
