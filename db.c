@@ -126,7 +126,7 @@ void init_db(MYSQL *con){
       finish_with_error(con);
     if (mysql_query(con, "CREATE TABLE params(Phone1 TEXT, Phone2 TEXT, Count INT, Time1 TIME, Time2 TIME, Door1 TEXT, Door2 TEXT, Door3 TEXT, Door4 TEXT);"))
       finish_with_error(con);
-    if (mysql_query(con, "INSERT INTO params VALUES ('+380667906811','',1,'08:00:00','20:00:00');"))
+    if (mysql_query(con, "INSERT INTO params VALUES ('+380667906811','',1,'08:00:00','20:00:00','door1','door2','door3','door4');"))
       finish_with_error(con);
   }
   if (mysql_query(con, "SELECT * FROM params;"))
@@ -159,6 +159,8 @@ void init_db(MYSQL *con){
     strcpy(doorName4, row[8]);    
     fprintf(stdout,"ph1=%s, ph2=%s, count=%d, t1=%d:%d:%d, t2=%d:%d:%d\nd1=%s, d2=%s, d3=%s, d4=%s\n",phone1,phone2,callCount,tm1.tm_hour,tm1.tm_min,tm1.tm_sec,tm2.tm_hour,tm2.tm_min,tm2.tm_sec,doorName1,doorName2,doorName3,doorName4);
   }
+  
+  fflush(stdout);
   
   mysql_free_result(result);
 }
