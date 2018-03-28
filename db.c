@@ -14,7 +14,10 @@ int openDoor[4], callCount;
 char buffer[SIZE];
 char phone1[SIZE];
 char phone2[SIZE];
-char doorName[SIZE][4];
+char doorName1[SIZE];
+char doorName2[SIZE];
+char doorName3[SIZE];
+char doorName4[SIZE];
 char timeString1[9];
 char timeString2[9];
 
@@ -150,11 +153,11 @@ void init_db(MYSQL *con){
     //time1 = mktime(&tm1);
     strptime(row[4], "%H:%M:%S", &tm2);
     //time2 = mktime(&tm2);
-    strcpy(doorName[0], row[5]);
-    strcpy(doorName[1], row[6]);
-    strcpy(doorName[2], row[7]);
-    strcpy(doorName[3], row[8]);    
-    fprintf(stdout,"ph1=%s, ph2=%s, count=%d, t1=%d:%d:%d, t2=%d:%d:%d\nd1=%s, d2=%s, d3=%s, d4=%s\n",phone1,phone2,callCount,tm1.tm_hour,tm1.tm_min,tm1.tm_sec,tm2.tm_hour,tm2.tm_min,tm2.tm_sec,doorName[0],doorName[1],doorName[2],doorName[3]);
+    strcpy(doorName1, row[5]);
+    strcpy(doorName2, row[6]);
+    strcpy(doorName3, row[7]);
+    strcpy(doorName4, row[8]);    
+    fprintf(stdout,"ph1=%s, ph2=%s, count=%d, t1=%d:%d:%d, t2=%d:%d:%d\nd1=%s, d2=%s, d3=%s, d4=%s\n",phone1,phone2,callCount,tm1.tm_hour,tm1.tm_min,tm1.tm_sec,tm2.tm_hour,tm2.tm_min,tm2.tm_sec,doorName1,doorName2,doorName3,doorName4);
   }
   
   mysql_free_result(result);
