@@ -14,6 +14,7 @@ int openDoor[4], callCount;
 char buffer[SIZE];
 char phone1[SIZE];
 char phone2[SIZE];
+char doorName[SIZE][4];
 char timeString1[9];
 char timeString2[9];
 
@@ -120,7 +121,7 @@ void init_db(MYSQL *con){
   if (nr == 0){
     if (mysql_query(con, "CREATE TABLE log(id INT NOT NULL AUTO_INCREMENT, door INT, dat DATETIME, PRIMARY KEY (ID));"))
       finish_with_error(con);
-    if (mysql_query(con, "CREATE TABLE params(Phone1 TEXT, Phone2 TEXT, Count INT, Time1 TIME, Time2 TIME);"))
+    if (mysql_query(con, "CREATE TABLE params(Phone1 TEXT, Phone2 TEXT, Count INT, Time1 TIME, Time2 TIME, Door1 TEXT, Door2 TEXT, Door3 TEXT, Door4 TEXT);"))
       finish_with_error(con);
     if (mysql_query(con, "INSERT INTO params VALUES ('+380667906811','',1,'08:00:00','20:00:00');"))
       finish_with_error(con);
@@ -149,8 +150,11 @@ void init_db(MYSQL *con){
     //time1 = mktime(&tm1);
     strptime(row[4], "%H:%M:%S", &tm2);
     //time2 = mktime(&tm2);
-    
-    printf("ph1=%s, ph2=%s, count=%d, t1=%d:%d:%d, t2=%d:%d:%d\n",phone1,phone2,callCount,tm1.tm_hour,tm1.tm_min,tm1.tm_sec,tm2.tm_hour,tm2.tm_min,tm2.tm_sec);
+    strcpy(doorName[0], row[5]);
+    strcpy(doorName[1], row[6]);
+    strcpy(doorName[2], row[7]);
+    strcpy(doorName[3], row[8]);    
+    fprintf(stdout,"ph1=%s, ph2=%s, count=%d, t1=%d:%d:%d, t2=%d:%d:%d\nd1=%s, d2=%s, d3=%s, d4=%s\n",phone1,phone2,callCount,tm1.tm_hour,tm1.tm_min,tm1.tm_sec,tm2.tm_hour,tm2.tm_min,tm2.tm_sec,doorName[0],doorName[1],doorName[2],doorName[3]);
   }
   
   mysql_free_result(result);
