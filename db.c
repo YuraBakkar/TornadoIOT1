@@ -43,7 +43,7 @@ void checkDoors(int d){
   timeinfo = localtime ( &rawtime );
   //printf("%d:%d:%d\n",timeinfo.tm_hour,timeinfo.tm_min,timeinfo.tm_sec);
   if (checkTime(timeinfo)){
-    printf (stdout,"time=%s\n", asctime(timeinfo));
+    fprintf (stdout,"time=%s\n", asctime(timeinfo));
   }
   fflush(stdout);
 }
