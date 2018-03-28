@@ -4,9 +4,19 @@
 #include <wiringPi.h>
 #include <time.h>
 
-time_t rawtime;
+#define SIZE 256
+
+time_t rawtime, time1, time2;
 struct tm * timeinfo;
-int openDoor1, openDoor2, openDoor3, openDoor4;
+struct tm tm1;
+int openDoor1, openDoor2, openDoor3, openDoor4, callCount;
+char buffer[SIZE];
+char phone1[SIZE];
+char phone2[SIZE];
+
+char* checkDoors(){
+  
+}
 
 void myInterrupt1 (void) {
   openDoor1 = !openDoor1;
@@ -113,7 +123,38 @@ void init_db(MYSQL *con){
       finish_with_error(con);
     if (mysql_query(con, "CREATE TABLE params(Phone1 TEXT, Phone2 TEXT, Count INT, Time1 TIME, Time2 TIME);"))
       finish_with_error(con);
+    if (mysql_query(con, "INSERT INTO params VALUES ('+380667906811','',1,'08:00:00','20:00:00');"))
+      finish_with_error(con);
   }
+  if (mysql_query(con, "SELECT * FROM params;"))
+    finish_with_error(con);
+  
+  mysql_free_result(result);
+  result = mysql_store_result(con);
+  
+  if (result == NULL) 
+  {
+      finish_with_error(con);
+  }
+
+  int num_fields = mysql_num_fields(result);
+
+  MYSQL_ROW row;
+  
+  while ((row = mysql_fetch_row(result))) 
+  { 
+    strcpy(phone1, row[0]);
+    strcpy(phone2, row[1]);
+    callCount = atoi(row[2]);
+    strptime(row[3], "%H:%M:%S", &tm1);
+    time1 = mktime(&tm1);
+    strptime(row[4], "%H:%M:%S", &tm1);
+    time2 = mktime(&tm1);
+    
+    printf("ph1=%s, ph2=%s, count=%d, t1=%s, t2=%s",phone1,phone2,callCount,asctime(localtime(&time1)),asctime(localtime(&time2)));
+  }
+  
+  mysql_free_result(result);
 }
 
 void close_db(MYSQL *con){
