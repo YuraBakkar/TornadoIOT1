@@ -45,6 +45,7 @@ void checkDoors(int d){
   if (checkTime(timeinfo)){
     printf (stdout,"time=%s\n", asctime(timeinfo));
   }
+  fflush(stdout);
 }
 
 void myInterrupt1 (void) {
