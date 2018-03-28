@@ -118,7 +118,7 @@ void init_db(MYSQL *con){
   }
   
   if (nr == 0){
-    if (mysql_query(con, "CREATE TABLE log(Id INT, Door INT, Dat DATETIME);"))
+    if (mysql_query(con, "CREATE TABLE log(Id INT NOT NULL AUTO_INCREMENT, Door INT, Dat DATETIME);"))
       finish_with_error(con);
     if (mysql_query(con, "CREATE TABLE params(Phone1 TEXT, Phone2 TEXT, Count INT, Time1 TIME, Time2 TIME);"))
       finish_with_error(con);
