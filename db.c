@@ -156,7 +156,7 @@ void init_db(MYSQL *con){
     
     strftime(timeString1, 8, "%H:%M:%S", localtime(&time1));
     strftime(timeString2, 8, "%H:%M:%S", localtime(&time2));
-    printf("ph1=%s, ph2=%s, count=%d, t1=%s, t2=%s\n",phone1,phone2,callCount,timeString1,timeString2);
+    printf("ph1=%s, ph2=%s, count=%d, t1=%s - %s, t2=%s - %s\n",phone1,phone2,callCount,timeString1,row[3],timeString2,row[4]);
   }
   
   mysql_free_result(result);
