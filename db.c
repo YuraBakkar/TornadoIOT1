@@ -14,8 +14,8 @@ int openDoor1, openDoor2, openDoor3, openDoor4, callCount;
 char buffer[SIZE];
 char phone1[SIZE];
 char phone2[SIZE];
-char timeString1[8];
-char timeString2[8];
+char timeString1[9];
+char timeString2[9];
 
 char* checkDoors(){
   
@@ -154,9 +154,9 @@ void init_db(MYSQL *con){
     strptime(row[4], "%H:%M:%S", &tm2);
     time2 = mktime(&tm2);
     
-    strftime(timeString1, 8, "%H:%M:%S", localtime(&time1));
-    strftime(timeString2, 8, "%H:%M:%S", localtime(&time2));
-    printf("ph1=%s, ph2=%s, count=%d, t1=%s - %s, t2=%s - %s\n",phone1,phone2,callCount,timeString1,row[3],timeString2,row[4]);
+    strftime(timeString1, sizeof(timeString1), "%H:%M:%S", localtime(&time1));
+    strftime(timeString2, sizeof(timeString2), "%H:%M:%S", localtime(&time2));
+    printf("ph1=%s, ph2=%s, count=%d, t1=%s - %d:%d:%d, t2=%s - %d:%d:%d\n",phone1,phone2,callCount,timeString1,tm1.tm_hour,tm1.tm_min,tm1.tm_sec,timeString2,tm2.tm_hour,tm2.tm_min,tm2.tm_sec);
   }
   
   mysql_free_result(result);
