@@ -17,7 +17,7 @@ char phone2[SIZE];
 char timeString1[9];
 char timeString2[9];
 
-int checkTime(tm *t){
+int checkTime(struct tm *t){
   //time ( &rawtime );
   //timeinfo = localtime ( &rawtime );
   if ((t.tm_hour<tm1.tm_hour) || 
