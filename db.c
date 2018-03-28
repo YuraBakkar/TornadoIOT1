@@ -35,7 +35,7 @@ int checkTime(struct tm *t){
 void checkDoors(){
   time ( &rawtime );
   timeinfo = localtime ( &rawtime );
-  if checkTime(&timeinfo){
+  if (checkTime(&timeinfo)){
     printf ("time=%s\n", asctime(timeinfo));
   }
 }
