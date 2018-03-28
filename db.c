@@ -29,6 +29,8 @@ char timeString2[9];
 
 int fd;  // COM File descriptor
 
+char smsMessage[]={"alarm - "};
+
 int checkTime(struct tm *t){
   //time ( &rawtime );
   //timeinfo = localtime ( &rawtime );
@@ -101,8 +103,39 @@ void initCOM(){
 
 }
 
-void sendSMS(){
-  
+void sendSMS(int d, int p){
+  char smsCommand1[]={"AT+CMGF=1\r"};
+  char smsCommand2[]={"AT+CMGS=\""};
+  char b[SIZE];
+  int n = write(fd, smsCommand1, strlen(smsCommand1));
+  if (n < 0)
+    fputs("sms failed!\n", stderr);
+  else {
+    strcpy(b,smsCommand2);
+    if (p==1)
+      strcat(b,phone1);
+    else
+      strcat(b,phone2);
+    strcat(b,"\"");
+    n = write(fd, b, strlen(b));
+    if (n < 0)
+      fputs("sms failed!\n", stderr);
+    else {
+      strcpy(b,smsMessage);
+      switch(d){
+        case 1: strcat(b,doorName1);
+        case 2: strcat(b,doorName2);
+        case 3: strcat(b,doorName3);
+        case 4: strcat(b,doorName4);
+      }
+      strcat(b,"\x1A");
+      n = write(fd, b, strlen(b));
+      if (n < 0)
+        fputs("sms failed!\n", stderr);
+      else
+        fprintf(stdout,"SMS send succeed\n");
+    }
+  }
 }
 
 void callPhone(int p){
@@ -137,7 +170,8 @@ void checkDoors(int d){
   if (checkTime(timeinfo)){
     fprintf (stdout,"time=%s\n", asctime(timeinfo));
     if (strlen(phone1))
-      callPhone(1);
+      //callPhone(1);
+      sendSMS(d,1);
   }
   fflush(stdout);
 }
