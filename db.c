@@ -4,6 +4,12 @@
 #include <wiringPi.h>
 #include <time.h>
 
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <termio.h>
+#include <stdlib.h>
+#include <errno.h>
+
 #define SIZE 256
 
 time_t rawtime, time1, time2;
