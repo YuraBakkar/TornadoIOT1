@@ -10,7 +10,7 @@ time_t rawtime, time1, time2;
 struct tm * timeinfo;
 struct tm tm1;
 struct tm tm2;
-int openDoor1, openDoor2, openDoor3, openDoor4, callCount;
+int openDoor, callCount;
 char buffer[SIZE];
 char phone1[SIZE];
 char phone2[SIZE];
@@ -20,6 +20,7 @@ char timeString2[9];
 int checkTime(struct tm *t){
   //time ( &rawtime );
   //timeinfo = localtime ( &rawtime );
+  printf("%d:%d:%d\n",t->tm_hour,t->tm_min,t->tm_sec);
   if ((t->tm_hour<tm1.tm_hour) || 
       ((t->tm_hour==tm1.tm_hour) && (t->tm_min<tm1.tm_min)) || 
       ((t->tm_hour==tm1.tm_hour) && (t->tm_min==tm1.tm_min) && (t->tm_sec<=tm1.tm_sec)) ||
