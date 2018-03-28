@@ -106,6 +106,7 @@ void initCOM(){
 void sendSMS(int d, int p){
   char smsCommand1[]={"AT+CMGF=1\r"};
   char smsCommand2[]={"AT+CMGS=\""};
+  char smsCommand2End[]={"\"\r"}
   char b[SIZE];
   int n = write(fd, smsCommand1, strlen(smsCommand1));
   if (n < 0)
@@ -116,7 +117,7 @@ void sendSMS(int d, int p){
       strcat(b,phone1);
     else
       strcat(b,phone2);
-    strcat(b,"\"");
+    strcat(b,smsCommand2End);
     n = write(fd, b, strlen(b));
     if (n < 0)
       fputs("sms failed!\n", stderr);
