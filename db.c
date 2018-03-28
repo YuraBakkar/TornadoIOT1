@@ -111,13 +111,13 @@ void sendSMS(int d, int p){
   char smsCommand2[]={"AT+CMGS=\""};
   char smsCommand2End[]={"\"\r"};
   char b[SIZE];
-  usleep(100);
+  usleep(100000);
   int n = write(fd, smsCommand0, strlen(smsCommand0));
     
   if (n < 0)
     fputs("sms failed!\n", stderr);
   else {
-    usleep(100);
+    usleep(100000);
     write(fd, smsCommand1, strlen(smsCommand1));
     if (n < 0)
       fputs("sms failed!\n", stderr);
@@ -128,7 +128,7 @@ void sendSMS(int d, int p){
       else
         strcat(b,phone2);
       strcat(b,smsCommand2End);
-      usleep(100);
+      usleep(100000);
       n = write(fd, b, strlen(b));
       if (n < 0)
         fputs("sms failed!\n", stderr);
@@ -141,7 +141,7 @@ void sendSMS(int d, int p){
           case 4: strcat(b,doorName4); break;
         }
         strcat(b,"\x1A");
-        usleep(100);
+        usleep(100000);
         n = write(fd, b, strlen(b));
         if (n < 0)
           fputs("sms failed!\n", stderr);
