@@ -106,7 +106,7 @@ void initCOM(){
 void sendSMS(int d, int p){
   char smsCommand1[]={"AT+CMGF=1\r"};
   char smsCommand2[]={"AT+CMGS=\""};
-  char smsCommand2End[]={"\"\r"}
+  char smsCommand2End[]={"\"\r"};
   char b[SIZE];
   int n = write(fd, smsCommand1, strlen(smsCommand1));
   if (n < 0)
