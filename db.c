@@ -185,7 +185,7 @@ void checkDoors(int d){
     fprintf (stdout,"time=%s\n", asctime(timeinfo));
     if (strlen(phone1))
       //callPhone(1);
-      if ( openDoor[d-1] ) sendSMS(d,1);
+      if ( openDoor[d-1] ) callPhone(1);//sendSMS(d,1);
   }
   fflush(stdout);
 }
