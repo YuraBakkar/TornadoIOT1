@@ -17,8 +17,27 @@ char phone2[SIZE];
 char timeString1[9];
 char timeString2[9];
 
-char* checkDoors(){
-  
+int checkTime(tm *t){
+  //time ( &rawtime );
+  //timeinfo = localtime ( &rawtime );
+  if ((t.tm_hour<tm1.tm_hour) || 
+      ((t.tm_hour==tm1.tm_hour) && (t.tm_min<tm1.tm_min)) || 
+      ((t.tm_hour==tm1.tm_hour) && (t.tm_min==tm1.tm_min) && (t.tm_sec<=tm1.tm_sec)) ||
+      (t.tm_hour>tm2.tm_hour) || 
+      ((t.tm_hour==tm2.tm_hour) && (t.tm_min>tm2.tm_min)) || 
+      ((t.tm_hour==tm2.tm_hour) && (t.tm_min==tm2.tm_min) && (t.tm_sec>=tm2.tm_sec))
+      )
+    return 1;
+  else
+    return 0;
+}
+
+void checkDoors(){
+  time ( &rawtime );
+  timeinfo = localtime ( &rawtime );
+  if checkTime(&timeinfo){
+    printf ("time=%s\n", asctime(timeinfo));
+  }
 }
 
 void myInterrupt1 (void) {
@@ -27,9 +46,7 @@ void myInterrupt1 (void) {
     printf("Door 1 is opened...");
   else
     printf("Door 1 is closed...");
-  time ( &rawtime );
-  timeinfo = localtime ( &rawtime );
-  printf ("time=%s\n", asctime(timeinfo));
+  checkDoors();
 }
 
 void myInterrupt2 (void) {
@@ -38,10 +55,7 @@ void myInterrupt2 (void) {
     printf("Door 2 is opened...");
   else
     printf("Door 2 is closed...");
-  time ( &rawtime );
-  timeinfo = localtime ( &rawtime );
-  printf ("time=%s\n", asctime(timeinfo));
-
+  checkDoors();
 }
 
 void myInterrupt3 (void) {
@@ -50,10 +64,7 @@ void myInterrupt3 (void) {
     printf("Door 3 is opened...");
   else
     printf("Door 3 is closed...");
-  time ( &rawtime );
-  timeinfo = localtime ( &rawtime );
-  printf ("time=%s\n", asctime(timeinfo));
-
+  checkDoors();
 }
 void myInterrupt4 (void) {
   openDoor4 = !openDoor4;
@@ -61,10 +72,7 @@ void myInterrupt4 (void) {
     printf("Door 4 is opened...");
   else
     printf("Door 4 is closed...");
-  time ( &rawtime );
-  timeinfo = localtime ( &rawtime );
-  printf ("time=%s\n", asctime(timeinfo));
-
+  checkDoors();
 }
 
 void init_controller(){
@@ -150,13 +158,11 @@ void init_db(MYSQL *con){
     strcpy(phone2, row[1]);
     callCount = atoi(row[2]);
     strptime(row[3], "%H:%M:%S", &tm1);
-    time1 = mktime(&tm1);
+    //time1 = mktime(&tm1);
     strptime(row[4], "%H:%M:%S", &tm2);
-    time2 = mktime(&tm2);
+    //time2 = mktime(&tm2);
     
-    strftime(timeString1, sizeof(timeString1), "%H:%M:%S", localtime(&time1));
-    strftime(timeString2, sizeof(timeString2), "%H:%M:%S", localtime(&time2));
-    printf("ph1=%s, ph2=%s, count=%d, t1=%s - %d:%d:%d, t2=%s - %d:%d:%d\n",phone1,phone2,callCount,timeString1,tm1.tm_hour,tm1.tm_min,tm1.tm_sec,timeString2,tm2.tm_hour,tm2.tm_min,tm2.tm_sec);
+    printf("ph1=%s, ph2=%s, count=%d, t1=%d:%d:%d, t2=%d:%d:%d\n",phone1,phone2,callCount,tm1.tm_hour,tm1.tm_min,tm1.tm_sec,tm2.tm_hour,tm2.tm_min,tm2.tm_sec);
   }
   
   mysql_free_result(result);
