@@ -10,7 +10,7 @@ time_t rawtime, time1, time2;
 struct tm * timeinfo;
 struct tm tm1;
 struct tm tm2;
-int openDoor, callCount;
+int openDoor[4], callCount;
 char buffer[SIZE];
 char phone1[SIZE];
 char phone2[SIZE];
@@ -33,7 +33,12 @@ int checkTime(struct tm *t){
     return 0;
 }
 
-void checkDoors(){
+void checkDoors(ind d){
+  openDoor[d-1] = !openDoor[d-1];
+  if ( openDoor[d-1]  )  
+    printf("Door %d is opened...",openDoor[d-1]);
+  else
+    printf("Door %d is closed...",openDoor[d-1]);
   time ( &rawtime );
   timeinfo = localtime ( &rawtime );
   if (checkTime(&timeinfo)){
@@ -42,38 +47,18 @@ void checkDoors(){
 }
 
 void myInterrupt1 (void) {
-  openDoor1 = !openDoor1;
-  if ( openDoor1  )  
-    printf("Door 1 is opened...");
-  else
-    printf("Door 1 is closed...");
-  checkDoors();
+  checkDoors(1);
 }
 
 void myInterrupt2 (void) {
-  openDoor2 = !openDoor2;
-  if ( openDoor2  )  
-    printf("Door 2 is opened...");
-  else
-    printf("Door 2 is closed...");
-  checkDoors();
+  checkDoors(2);
 }
 
 void myInterrupt3 (void) {
-  openDoor3 = !openDoor3;
-  if ( openDoor3  )  
-    printf("Door 3 is opened...");
-  else
-    printf("Door 3 is closed...");
-  checkDoors();
+  checkDoors(3);
 }
 void myInterrupt4 (void) {
-  openDoor4 = !openDoor4;
-  if ( openDoor4  )  
-    printf("Door 4 is opened...");
-  else
-    printf("Door 4 is closed...");
-  checkDoors();
+  checkDoors(4);
 }
 
 void init_controller(){
@@ -85,11 +70,11 @@ void init_controller(){
   wiringPiISR (3, INT_EDGE_BOTH, &myInterrupt3);
   wiringPiISR (4, INT_EDGE_BOTH, &myInterrupt4);
   //pinMode(0,INPUT);
-  openDoor1 = digitalRead(0);
-  openDoor2 = digitalRead(1);
-  openDoor3 = digitalRead(2);
-  openDoor4 = digitalRead(3);
-  printf("1-%d; 2-%d; 3-%d; 4-%d\n\n",openDoor1,openDoor2,openDoor3,openDoor4);
+  openDoor[0] = digitalRead(0);
+  openDoor[1] = digitalRead(1);
+  openDoor[2] = digitalRead(2);
+  openDoor[3] = digitalRead(3);
+  printf("1-%d; 2-%d; 3-%d; 4-%d\n\n",openDoor[0],openDoor[1],openDoor[2],openDoor[3]);
   pullUpDnControl(0,PUD_UP);
   pullUpDnControl(1,PUD_UP);
   pullUpDnControl(2,PUD_UP);
