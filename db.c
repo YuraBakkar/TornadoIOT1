@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include <errno.h>
 
+#include <unistd.h>
+
 #define SIZE 256
 
 time_t rawtime, time1, time2;
@@ -109,13 +111,13 @@ void sendSMS(int d, int p){
   char smsCommand2[]={"AT+CMGS=\""};
   char smsCommand2End[]={"\"\r"};
   char b[SIZE];
-  sleep(1);
+  usleep(100);
   int n = write(fd, smsCommand0, strlen(smsCommand0));
     
   if (n < 0)
     fputs("sms failed!\n", stderr);
   else {
-    sleep(1);
+    usleep(100);
     write(fd, smsCommand1, strlen(smsCommand1));
     if (n < 0)
       fputs("sms failed!\n", stderr);
@@ -126,20 +128,20 @@ void sendSMS(int d, int p){
       else
         strcat(b,phone2);
       strcat(b,smsCommand2End);
-      sleep(1);
+      usleep(100);
       n = write(fd, b, strlen(b));
       if (n < 0)
         fputs("sms failed!\n", stderr);
       else {
         strcpy(b,smsMessage);
         switch(d){
-          case 1: strcat(b,doorName1);
-          case 2: strcat(b,doorName2);
-          case 3: strcat(b,doorName3);
-          case 4: strcat(b,doorName4);
+          case 1: strcat(b,doorName1); break;
+          case 2: strcat(b,doorName2); break;
+          case 3: strcat(b,doorName3); break;
+          case 4: strcat(b,doorName4); break;
         }
         strcat(b,"\x1A");
-        sleep(1);
+        usleep(100);
         n = write(fd, b, strlen(b));
         if (n < 0)
           fputs("sms failed!\n", stderr);
@@ -183,7 +185,7 @@ void checkDoors(int d){
     fprintf (stdout,"time=%s\n", asctime(timeinfo));
     if (strlen(phone1))
       //callPhone(1);
-      sendSMS(d,1);
+      if ( openDoor[d-1] ) sendSMS(d,1);
   }
   fflush(stdout);
 }
