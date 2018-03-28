@@ -9,6 +9,7 @@
 time_t rawtime, time1, time2;
 struct tm * timeinfo;
 struct tm tm1;
+struct tm tm2;
 int openDoor1, openDoor2, openDoor3, openDoor4, callCount;
 char buffer[SIZE];
 char phone1[SIZE];
@@ -150,12 +151,12 @@ void init_db(MYSQL *con){
     callCount = atoi(row[2]);
     strptime(row[3], "%H:%M:%S", &tm1);
     time1 = mktime(&tm1);
-    strptime(row[4], "%H:%M:%S", &tm1);
-    time2 = mktime(&tm1);
+    strptime(row[4], "%H:%M:%S", &tm2);
+    time2 = mktime(&tm2);
     
     strftime(timeString1, 8, "%H:%M:%S", localtime(&time1));
     strftime(timeString2, 8, "%H:%M:%S", localtime(&time2));
-    printf("ph1=%s, ph2=%s, count=%d, t1=%s, t2=%s",phone1,phone2,callCount,timeString1,timeString2);
+    printf("ph1=%s, ph2=%s, count=%d, t1=%s, t2=%s\n",phone1,phone2,callCount,timeString1,timeString2);
   }
   
   mysql_free_result(result);
