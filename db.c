@@ -41,6 +41,7 @@ void checkDoors(int d){
     printf("Door %d is closed...",openDoor[d-1]);
   time ( &rawtime );
   timeinfo = localtime ( &rawtime );
+  printf("%d:%d:%d\n",timeinfo.tm_hour,timeinfo.tm_min,timeinfo.tm_sec);
   if (checkTime(&timeinfo)){
     printf ("time=%s\n", asctime(timeinfo));
   }
