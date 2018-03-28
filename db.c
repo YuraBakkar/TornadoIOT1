@@ -33,7 +33,7 @@ int checkTime(struct tm *t){
     return 0;
 }
 
-void checkDoors(ind d){
+void checkDoors(int d){
   openDoor[d-1] = !openDoor[d-1];
   if ( openDoor[d-1]  )  
     printf("Door %d is opened...",openDoor[d-1]);
