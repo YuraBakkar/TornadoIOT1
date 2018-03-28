@@ -104,37 +104,44 @@ void initCOM(){
 }
 
 void sendSMS(int d, int p){
+  char smsCommand0[]={"AT+CSCS=\"GSM\""};
   char smsCommand1[]={"AT+CMGF=1\r"};
   char smsCommand2[]={"AT+CMGS=\""};
   char smsCommand2End[]={"\"\r"};
   char b[SIZE];
-  int n = write(fd, smsCommand1, strlen(smsCommand1));
+  int n = write(fd, smsCommand0, strlen(smsCommand0));
+    
   if (n < 0)
     fputs("sms failed!\n", stderr);
   else {
-    strcpy(b,smsCommand2);
-    if (p==1)
-      strcat(b,phone1);
-    else
-      strcat(b,phone2);
-    strcat(b,smsCommand2End);
-    n = write(fd, b, strlen(b));
+    write(fd, smsCommand1, strlen(smsCommand1));
     if (n < 0)
       fputs("sms failed!\n", stderr);
     else {
-      strcpy(b,smsMessage);
-      switch(d){
-        case 1: strcat(b,doorName1);
-        case 2: strcat(b,doorName2);
-        case 3: strcat(b,doorName3);
-        case 4: strcat(b,doorName4);
-      }
-      strcat(b,"\x1A");
+      strcpy(b,smsCommand2);
+      if (p==1)
+        strcat(b,phone1);
+      else
+        strcat(b,phone2);
+      strcat(b,smsCommand2End);
       n = write(fd, b, strlen(b));
       if (n < 0)
         fputs("sms failed!\n", stderr);
-      else
-        fprintf(stdout,"SMS send succeed\n");
+      else {
+        strcpy(b,smsMessage);
+        switch(d){
+          case 1: strcat(b,doorName1);
+          case 2: strcat(b,doorName2);
+          case 3: strcat(b,doorName3);
+          case 4: strcat(b,doorName4);
+        }
+        strcat(b,"\x1A");
+        n = write(fd, b, strlen(b));
+        if (n < 0)
+          fputs("sms failed!\n", stderr);
+        else
+          fprintf(stdout,"SMS send succeed\n");
+      }
     }
   }
 }
@@ -315,5 +322,6 @@ int main(int argc, char **argv){
   }
   
   close_db(con);
+  close( fd );
   return 0;
 }
