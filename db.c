@@ -20,12 +20,12 @@ char timeString2[9];
 int checkTime(struct tm *t){
   //time ( &rawtime );
   //timeinfo = localtime ( &rawtime );
-  if ((t.tm_hour<tm1.tm_hour) || 
-      ((t.tm_hour==tm1.tm_hour) && (t.tm_min<tm1.tm_min)) || 
-      ((t.tm_hour==tm1.tm_hour) && (t.tm_min==tm1.tm_min) && (t.tm_sec<=tm1.tm_sec)) ||
-      (t.tm_hour>tm2.tm_hour) || 
-      ((t.tm_hour==tm2.tm_hour) && (t.tm_min>tm2.tm_min)) || 
-      ((t.tm_hour==tm2.tm_hour) && (t.tm_min==tm2.tm_min) && (t.tm_sec>=tm2.tm_sec))
+  if ((t->tm_hour<tm1.tm_hour) || 
+      ((t->tm_hour==tm1.tm_hour) && (t->tm_min<tm1.tm_min)) || 
+      ((t->tm_hour==tm1.tm_hour) && (t->tm_min==tm1.tm_min) && (t->tm_sec<=tm1.tm_sec)) ||
+      (t->tm_hour>tm2.tm_hour) || 
+      ((t->tm_hour==tm2.tm_hour) && (t->tm_min>tm2.tm_min)) || 
+      ((t->tm_hour==tm2.tm_hour) && (t->tm_min==tm2.tm_min) && (t->tm_sec>=tm2.tm_sec))
       )
     return 1;
   else
