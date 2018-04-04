@@ -358,14 +358,14 @@ int main(int argc, char **argv){
   init_controller();
   initCOM();
   
-  if (!openDoor[0])
+  /*if (!openDoor[0])
     checkDoors(1);
   if (!openDoor[1])
     checkDoors(2);
   if (!openDoor[2])
     checkDoors(3);
   if (!openDoor[3])
-    checkDoors(4);
+    checkDoors(4);*/
   
   while(1){
     n = read( fd, buf, sizeof(buf) );
