@@ -48,9 +48,9 @@ void saveAlarmDB(int d, struct tm *t){
 }
 
 int checkReply(struct tm *t){
-  int t = t->tm_hour*60+t->tm_min;
-  if ((lastAlarmTime==-1)||(lastAlarmTime+replyDelay<t)){
-    lastAlarmTime = t;
+  int t1 = t->tm_hour*60+t->tm_min;
+  if ((lastAlarmTime==-1)||(lastAlarmTime+replyDelay<t1)){
+    lastAlarmTime = t1;
     return 1;
   }
   else
