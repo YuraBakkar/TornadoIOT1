@@ -137,7 +137,7 @@ void sendSMS(int d, int p){
   char smsCommand0[]={"AT+CSCS=\"GSM\"\r"};
   char smsCommand1[]={"AT+CMGF=1\r"};
   char smsCommand2[]={"AT+CMGS=\""};
-  char smsCommand2End[]={"\"\r"};
+  char smsCommand2End[]={"\""};
   char b[SIZE];
   usleep(100000);
   int n = write(fd, smsCommand0, strlen(smsCommand0));
