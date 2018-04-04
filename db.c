@@ -201,7 +201,7 @@ void callPhone(int p){
 }
 
 void checkDoors(int d){
-  openDoor[d-1] = !openDoor[d-1];
+  openDoor[d-1] = digitalRead(i-1);//!openDoor[d-1];
   if ( openDoor[d-1]  )  
     fprintf(stdout,"Door %d is opened...",d);
   else
@@ -358,13 +358,13 @@ int main(int argc, char **argv){
   init_controller();
   initCOM();
   
-  if (openDoor[0])
+  if (!openDoor[0])
     checkDoors(1);
-  if (openDoor[1])
+  if (!openDoor[1])
     checkDoors(2);
-  if (openDoor[2])
+  if (!openDoor[2])
     checkDoors(3);
-  if (openDoor[3])
+  if (!openDoor[3])
     checkDoors(4);
   
   while(1){
