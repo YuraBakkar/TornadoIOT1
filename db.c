@@ -31,7 +31,29 @@ char timeString2[9];
 
 int fd;  // COM File descriptor
 
+int lastAlarmTime = -1;
+int replyDelay = 30;//in minutes
+int callDelay = 30;//in seconds
+
 char smsMessage[]={"alarm - "};
+
+void saveAlarmDB(int d, struct tm *t){
+  char b[256];
+  sptrinf(b, "INSERT INTO log VALUES(null,%d,%4d-%2d-%2d %2d:%2d:%2d)",d,t->tm_year,t->tm_mon+1,t->tm_mday,t->tm_hour,t->tm_min,t->tm_sec);
+  if (mysql_query(con, )) {
+    finish_with_error(con);
+  }
+}
+
+int checkReply(struct tm *t){
+  int t = t->tm_hour*60+t->tm_min;
+  if ((lastAlarmTime==-1)||(lastAlarmTime+replyDelay<t)){
+    lastAlarmTime = t;
+    return 1;
+  }
+  else
+    return 0;
+}
 
 int checkTime(struct tm *t){
   //time ( &rawtime );
@@ -183,9 +205,23 @@ void checkDoors(int d){
   //printf("%d:%d:%d\n",timeinfo.tm_hour,timeinfo.tm_min,timeinfo.tm_sec);
   if (checkTime(timeinfo)){
     fprintf (stdout,"time=%s\n", asctime(timeinfo));
-    if (strlen(phone1))
-      //callPhone(1);
-      if ( openDoor[d-1] ) callPhone(1);//sendSMS(d,1);
+    saveAlarmDB(d, timeinfo);
+    if (checkReply(timeinfo)){
+      if ( openDoor[d-1] ){
+        if (strlen(phone1)){
+          sendSMS(d,1);
+          usleep(1000000);
+          callPhone(1);//sendSMS(d,1);
+          usleep(callDelay*1000000);
+        }
+        if (strlen(phone2)){
+          sendSMS(d,2);
+          usleep(1000000);
+          callPhone(2);//sendSMS(d,1);
+          usleep(callDelay*1000000);
+        }
+      }
+    }
   }
   fflush(stdout);
 }
