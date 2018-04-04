@@ -253,8 +253,8 @@ void init_controller(){
   //pullUpDnControl(1,0);
   wiringPiISR (0, INT_EDGE_BOTH, &myInterrupt1);
   wiringPiISR (1, INT_EDGE_BOTH, &myInterrupt2);
-  wiringPiISR (3, INT_EDGE_BOTH, &myInterrupt3);
-  wiringPiISR (4, INT_EDGE_BOTH, &myInterrupt4);
+  wiringPiISR (2, INT_EDGE_BOTH, &myInterrupt3);
+  wiringPiISR (3, INT_EDGE_BOTH, &myInterrupt4);
   //pinMode(0,INPUT);
   openDoor[0] = !digitalRead(0);
   openDoor[1] = !digitalRead(1);
