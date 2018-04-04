@@ -201,7 +201,7 @@ void callPhone(int p){
 }
 
 void checkDoors(int d){
-  openDoor[d-1] = digitalRead(i-1);//!openDoor[d-1];
+  openDoor[d-1] = digitalRead(d-1);//!openDoor[d-1];
   if ( openDoor[d-1]  )  
     fprintf(stdout,"Door %d is opened...",d);
   else
