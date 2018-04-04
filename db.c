@@ -35,12 +35,14 @@ int lastAlarmTime = -1;
 int replyDelay = 30;//in minutes
 int callDelay = 30;//in seconds
 
+MYSQL *con;
+
 char smsMessage[]={"alarm - "};
 
 void saveAlarmDB(int d, struct tm *t){
   char b[256];
   sptrinf(b, "INSERT INTO log VALUES(null,%d,%4d-%2d-%2d %2d:%2d:%2d)",d,t->tm_year,t->tm_mon+1,t->tm_mday,t->tm_hour,t->tm_min,t->tm_sec);
-  if (mysql_query(con, )) {
+  if (mysql_query(con, b)) {
     finish_with_error(con);
   }
 }
@@ -344,7 +346,7 @@ void close_db(MYSQL *con){
 }
 
 int main(int argc, char **argv){
-  MYSQL *con = mysql_init(NULL);
+  /*MYSQL **/con = mysql_init(NULL);
   int n;
   char buf[1000]={"\0"};
   
