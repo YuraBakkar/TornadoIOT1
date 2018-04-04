@@ -127,10 +127,14 @@ void initCOM(){
 
   fcntl(fd, F_SETFL, FNDELAY);
 
+  char smsCommand0[]={"ATE1\r"};
+  usleep(100000);
+  int n = write(fd, smsCommand0, strlen(smsCommand0));
+
 }
 
 void sendSMS(int d, int p){
-  char smsCommand0[]={"AT+CSCS=\"GSM\""};
+  char smsCommand0[]={"AT+CSCS=\"GSM\"\r"};
   char smsCommand1[]={"AT+CMGF=1\r"};
   char smsCommand2[]={"AT+CMGS=\""};
   char smsCommand2End[]={"\"\r"};
