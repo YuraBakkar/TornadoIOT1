@@ -211,14 +211,14 @@ void checkDoors(int d){
     if (checkReply(timeinfo)){
       if ( openDoor[d-1] ){
         if (strlen(phone1)){
-          //sendSMS(d,1);
-          usleep(1000000);
+          sendSMS(d,1);
+          usleep(2000000);
           callPhone(1);//sendSMS(d,1);
           usleep(callDelay*1000000);
         }
         if (strlen(phone2)){
           sendSMS(d,2);
-          usleep(1000000);
+          usleep(2000000);
           callPhone(2);//sendSMS(d,1);
           usleep(callDelay*1000000);
         }
