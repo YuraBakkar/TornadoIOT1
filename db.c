@@ -218,7 +218,7 @@ void checkDoors(int d){
         if (strlen(phone1)){
           //sendSMS(d,1);
           sleep(2);
-          callPhone(1);//sendSMS(d,1);
+          //callPhone(1);//sendSMS(d,1);
           usleep(callDelay*1000000);
         }
         if (strlen(phone2)){
