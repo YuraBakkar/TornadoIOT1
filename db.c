@@ -35,7 +35,7 @@ int lastAlarmTime = -1;
 int replyDelay = 30;//in minutes
 int callDelay = 30;//in seconds
 
-int alarm = 0;
+int alarmDoor = 0;
 
 MYSQL *con;
 
@@ -216,7 +216,7 @@ void checkDoors(int d){
     fprintf (stdout,"time=%s\n", asctime(timeinfo));
     saveAlarmDB(d, timeinfo);
     if(checkReply(timeinfo))
-      alarm = d;
+      alarmDoor = d;
     /*if (checkReply(timeinfo)){
       {
         if (strlen(phone1)){
@@ -380,7 +380,7 @@ int main(int argc, char **argv){
       printf("%s", buf);    
       fflush(stdout);
     }
-    if (alarm){
+    if (alarmDoor){
       /*if ( openDoor[d-1] )*/{
         if (strlen(phone1)){
           //sendSMS(d,1);
@@ -389,7 +389,7 @@ int main(int argc, char **argv){
           usleep(callDelay*1000000);
         }
         if (strlen(phone2)){
-          sendSMS(alarm,2);
+          sendSMS(alarmDoor,2);
           sleep(2);
           callPhone(2);//sendSMS(d,1);
           usleep(callDelay*1000000);
