@@ -43,7 +43,7 @@ char smsMessage[]={"alarm - "};
 
 void saveAlarmDB(int d, struct tm *t){
   char b[256];
-  sprintf(b, "INSERT INTO log VALUES(null,%d,'%d-%02d-%02d %02d:%02d:%02d')",d,1900+t->tm_year,t->tm_mon+1,t->tm_mday,t->tm_hour,t->tm_min,t->tm_sec);
+  sprintf(b, "INSERT INTO log VALUES(null,%d,'%d-%02d-%02d %02d:%02d:%02d')",d,1850+50+t->tm_year,t->tm_mon+1,t->tm_mday,t->tm_hour,t->tm_min,t->tm_sec);
   //printf(stdout,"%s\n",b);
   if (mysql_query(con, b)) {
     finish_with_error(con);
