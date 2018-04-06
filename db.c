@@ -394,7 +394,7 @@ int main(int argc, char **argv){
           callPhone(2);//sendSMS(d,1);
           usleep(callDelay*1000000);
         }
-        alarm = 0;
+        alarmDoor = 0;
       }
     }
     //delay(100);
