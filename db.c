@@ -262,10 +262,10 @@ void init_controller(){
   openDoor[2] = digitalRead(2);
   openDoor[3] = digitalRead(3);
   fprintf(stdout,"1-%d; 2-%d; 3-%d; 4-%d\n\n",openDoor[0],openDoor[1],openDoor[2],openDoor[3]);
-  pullUpDnControl(0,PUD_UP);
-  pullUpDnControl(1,PUD_UP);
-  pullUpDnControl(2,PUD_UP);
-  pullUpDnControl(3,PUD_UP);
+  //pullUpDnControl(0,PUD_UP);
+  //pullUpDnControl(1,PUD_UP);
+  //pullUpDnControl(2,PUD_UP);
+  //pullUpDnControl(3,PUD_UP);
 }
 
 void finish_with_error(MYSQL *con){
