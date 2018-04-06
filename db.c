@@ -198,7 +198,7 @@ void callPhone(int p){
     fputs("call failed!\n", stderr);
   else
     fprintf(stdout,"Call succeed n  = %i\n", n );
-  sleep(5);
+  //sleep(5);
 }
 
 void checkDoors(int d){
@@ -218,7 +218,7 @@ void checkDoors(int d){
         if (strlen(phone1)){
           //sendSMS(d,1);
           sleep(2);
-          //callPhone(1);//sendSMS(d,1);
+          callPhone(1);//sendSMS(d,1);
           usleep(callDelay*1000000);
         }
         if (strlen(phone2)){
@@ -257,10 +257,10 @@ void init_controller(){
   wiringPiISR (2, INT_EDGE_BOTH, &myInterrupt3);
   wiringPiISR (3, INT_EDGE_BOTH, &myInterrupt4);
   //pinMode(0,INPUT);
-  openDoor[0] = !digitalRead(0);
-  openDoor[1] = !digitalRead(1);
-  openDoor[2] = !digitalRead(2);
-  openDoor[3] = !digitalRead(3);
+  openDoor[0] = digitalRead(0);
+  openDoor[1] = digitalRead(1);
+  openDoor[2] = digitalRead(2);
+  openDoor[3] = digitalRead(3);
   fprintf(stdout,"1-%d; 2-%d; 3-%d; 4-%d\n\n",openDoor[0],openDoor[1],openDoor[2],openDoor[3]);
   pullUpDnControl(0,PUD_UP);
   pullUpDnControl(1,PUD_UP);
