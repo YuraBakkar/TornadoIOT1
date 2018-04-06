@@ -258,13 +258,13 @@ void init_controller(){
   //pullUpDnControl(1,0);
   wiringPiISR (0, INT_EDGE_BOTH, &myInterrupt1);
   wiringPiISR (1, INT_EDGE_BOTH, &myInterrupt2);
-  wiringPiISR (2, INT_EDGE_BOTH, &myInterrupt3);
-  wiringPiISR (3, INT_EDGE_BOTH, &myInterrupt4);
+  wiringPiISR (3, INT_EDGE_BOTH, &myInterrupt3);
+  wiringPiISR (4, INT_EDGE_BOTH, &myInterrupt4);
   //pinMode(0,INPUT);
   openDoor[0] = digitalRead(0);
   openDoor[1] = digitalRead(1);
-  openDoor[2] = digitalRead(2);
-  openDoor[3] = digitalRead(3);
+  openDoor[2] = digitalRead(3);
+  openDoor[3] = digitalRead(4);
   fprintf(stdout,"1-%d; 2-%d; 3-%d; 4-%d\n\n",openDoor[0],openDoor[1],openDoor[2],openDoor[3]);
   //pullUpDnControl(0,PUD_UP);
   //pullUpDnControl(1,PUD_UP);
