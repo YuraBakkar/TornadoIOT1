@@ -35,6 +35,8 @@ int lastAlarmTime = -1;
 int replyDelay = 30;//in minutes
 int callDelay = 30;//in seconds
 
+int alarm = 0;
+
 MYSQL *con;
 
 char smsMessage[]={"alarm - "};
@@ -213,8 +215,9 @@ void checkDoors(int d){
   if (checkTime(timeinfo)){
     fprintf (stdout,"time=%s\n", asctime(timeinfo));
     saveAlarmDB(d, timeinfo);
-    if (checkReply(timeinfo)){
-      if ( openDoor[d-1] ){
+    alarm = 1;
+    /*if (checkReply(timeinfo)){
+      {
         if (strlen(phone1)){
           //sendSMS(d,1);
           sleep(2);
@@ -228,7 +231,7 @@ void checkDoors(int d){
           usleep(callDelay*1000000);
         }
       }
-    }
+    }*/
   }
   fflush(stdout);
 }
@@ -375,6 +378,23 @@ int main(int argc, char **argv){
     {   
       printf("%s", buf);    
       fflush(stdout);
+    }
+    if (checkReply(timeinfo) && alarm){
+      /*if ( openDoor[d-1] )*/{
+        if (strlen(phone1)){
+          //sendSMS(d,1);
+          sleep(2);
+          callPhone(1);//sendSMS(d,1);
+          usleep(callDelay*1000000);
+        }
+        if (strlen(phone2)){
+          sendSMS(d,2);
+          sleep(2);
+          callPhone(2);//sendSMS(d,1);
+          usleep(callDelay*1000000);
+        }
+        alarm = 0;
+      }
     }
     //delay(100);
   }
