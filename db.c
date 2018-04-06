@@ -215,7 +215,8 @@ void checkDoors(int d){
   if (checkTime(timeinfo)){
     fprintf (stdout,"time=%s\n", asctime(timeinfo));
     saveAlarmDB(d, timeinfo);
-    alarm = 1;
+    if(checkReply(timeinfo))
+      alarm = d;
     /*if (checkReply(timeinfo)){
       {
         if (strlen(phone1)){
@@ -379,7 +380,7 @@ int main(int argc, char **argv){
       printf("%s", buf);    
       fflush(stdout);
     }
-    if (checkReply(timeinfo) && alarm){
+    if (alarm){
       /*if ( openDoor[d-1] )*/{
         if (strlen(phone1)){
           //sendSMS(d,1);
@@ -388,7 +389,7 @@ int main(int argc, char **argv){
           usleep(callDelay*1000000);
         }
         if (strlen(phone2)){
-          sendSMS(d,2);
+          sendSMS(alarm,2);
           sleep(2);
           callPhone(2);//sendSMS(d,1);
           usleep(callDelay*1000000);
