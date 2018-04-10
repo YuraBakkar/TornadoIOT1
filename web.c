@@ -1,6 +1,7 @@
 #include <iostream>
 #include "fcgio.h"
 #include <mysql.h>
+#include <cstdlib.h>
 
 using namespace std;
 
@@ -21,8 +22,8 @@ int main(void) {
 	//////////////////////////////////////////////////////////////////////////
 	con = mysql_init(NULL);
 	if (con == NULL){
-    fprintf(stderr, "%s\n", mysql_error(con));
-    exit(1);
+		cout << mysql_error(con);
+		exit(1);
 	}
 	if (mysql_real_connect(con, "localhost", "root", "qwopaskl", NULL, 0, NULL, 0) == NULL){
 		finish_with_error(con);
@@ -31,9 +32,8 @@ int main(void) {
 		finish_with_error(con);
 	}
 	if (mysql_query(con, "SELECT * FROM log WHERE dat+INTERVAL 7 DAY>NOW();"))
-    finish_with_error(con);
+		finish_with_error(con);
   
-	mysql_free_result(result);
 	MYSQL_RES *result = mysql_store_result(con);
 	//////////////////////////////////////////////////////////////////////////
 	
