@@ -1,7 +1,7 @@
 #include <iostream>
 #include "fcgio.h"
 #include <mysql.h>
-#include <cstdlib.h>
+#include <stdlib.h>
 
 using namespace std;
 
