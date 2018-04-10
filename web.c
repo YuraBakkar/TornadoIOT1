@@ -7,7 +7,7 @@ using namespace std;
 MYSQL *con;
 
 void finish_with_error(MYSQL *con){
-  fprintf(stderr, "%s\n", mysql_error(con));
+  cout << mysql_error(con);
   mysql_close(con);
   exit(1);        
 }
