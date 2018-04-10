@@ -67,6 +67,8 @@ int main(void) {
         // Note: the fcgi_streambuf destructor will auto flush
     }
 
+	mysql_close(con);
+	
     // restore stdio streambufs
     cin.rdbuf(cin_streambuf);
     cout.rdbuf(cout_streambuf);
