@@ -6,6 +6,12 @@ using namespace std;
 
 MYSQL *con;
 
+void finish_with_error(MYSQL *con){
+  fprintf(stderr, "%s\n", mysql_error(con));
+  mysql_close(con);
+  exit(1);        
+}
+
 int main(void) {
     // Backup the stdio streambufs
     streambuf * cin_streambuf  = cin.rdbuf();
