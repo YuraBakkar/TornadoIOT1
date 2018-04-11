@@ -229,6 +229,7 @@ void checkDoors(int d){
     fprintf (stdout,"time=%s\n", asctime(timeinfo));
     if(checkReply(timeinfo)==1)
       alarmDoor = d;
+    printf("alarmDoor=%d\n",alarmDoor);
     /*if (checkReply(timeinfo)){
       {
         if (strlen(phone1)){
