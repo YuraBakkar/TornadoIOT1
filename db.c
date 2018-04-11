@@ -14,6 +14,10 @@
 
 #define SIZE 256
 
+int pins[] = {
+  0,1,3,4
+};
+
 time_t rawtime, time1, time2;
 struct tm * timeinfo;
 struct tm tm1;
@@ -212,6 +216,7 @@ void callPhone(int p){
 
 void checkDoors(int d){
   openDoor[d-1] = !openDoor[d-1];
+  openDoor[d-1] = digitalRead(pins[d-1]);
   if ( openDoor[d-1]  )  
     fprintf(stdout,"Door %d is opened...",d);
   else
@@ -268,10 +273,10 @@ void init_controller(){
   wiringPiISR (3, INT_EDGE_BOTH, &myInterrupt3);
   wiringPiISR (4, INT_EDGE_BOTH, &myInterrupt4);
   //pinMode(0,INPUT);
-  openDoor[0] = digitalRead(0);
-  openDoor[1] = digitalRead(1);
-  openDoor[2] = digitalRead(3);
-  openDoor[3] = digitalRead(4);
+  openDoor[0] = digitalRead(pins[0]);
+  openDoor[1] = digitalRead(pins[1]);
+  openDoor[2] = digitalRead(pins[2]);
+  openDoor[3] = digitalRead(pins[3]);
   fprintf(stdout,"1-%d; 2-%d; 3-%d; 4-%d\n\n",openDoor[0],openDoor[1],openDoor[2],openDoor[3]);
   //pullUpDnControl(0,PUD_UP);
   //pullUpDnControl(1,PUD_UP);
