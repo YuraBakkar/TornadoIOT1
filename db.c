@@ -270,7 +270,7 @@ void init_controller(){
   wiringPiSetup() ;
   //pullUpDnControl(1,0);
   wiringPiISR (pins[0], INT_EDGE_BOTH, &myInterrupt1);
-  //wiringPiISR (pins[1], INT_EDGE_BOTH, &myInterrupt2);
+  wiringPiISR (pins[1], INT_EDGE_BOTH, &myInterrupt2);
   wiringPiISR (pins[2], INT_EDGE_BOTH, &myInterrupt3);
   wiringPiISR (pins[3], INT_EDGE_BOTH, &myInterrupt4);
   //pinMode(0,INPUT);
