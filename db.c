@@ -385,11 +385,12 @@ int main(int argc, char **argv){
     if (alarmDoor){
       /*if ( openDoor[d-1] )*/{
         if (strlen(phone1)){
-          sendSMS(alarmDoor,1);
-          usleep(2000000);
           callPhone(1);//sendSMS(d,1);
           usleep(callDelay*1000000);
           cancelCall();
+          usleep(2000000);
+          sendSMS(alarmDoor,1);
+          usleep(2000000);
         }
         if (strlen(phone2)){
           sendSMS(alarmDoor,2);
