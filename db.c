@@ -44,7 +44,7 @@ char smsMessage[]={"alarm - "};
 void saveAlarmDB(int d, struct tm *t){
   char b[256];
   sprintf(b, "INSERT INTO log VALUES(null,%d,'%d-%02d-%02d %02d:%02d:%02d')",d,1850+50+t->tm_year,t->tm_mon+1,t->tm_mday,t->tm_hour,t->tm_min,t->tm_sec);
-  //printf(stdout,"%s\n",&b);
+  printf(stdout,"%s\n",b[0]);
   if (mysql_query(con, b)) {
     finish_with_error(con);
   }
@@ -52,7 +52,7 @@ void saveAlarmDB(int d, struct tm *t){
 
 int checkReply(struct tm *t){
   int t1 = t->tm_hour*60+t->tm_min;
-  printf("\nlasttime=%d; d=%d; t1=%d\n",lastAlarmTime,lastAlarmTime+replyDelay,t1);
+  //printf("\nlasttime=%d; d=%d; t1=%d\n",lastAlarmTime,lastAlarmTime+replyDelay,t1);
   if ((lastAlarmTime==-1)||(lastAlarmTime+replyDelay<t1)){
     lastAlarmTime = t1;
     return 1;
@@ -219,10 +219,10 @@ void checkDoors(int d){
   time ( &rawtime );
   timeinfo = localtime ( &rawtime );
   //printf("%d:%d:%d\n",timeinfo.tm_hour,timeinfo.tm_min,timeinfo.tm_sec);
-  if (checkTime(timeinfo)){
-    fprintf (stdout,"time=%s\n", asctime(timeinfo));
+  if (checkTime(timeinfo)==1){
     saveAlarmDB(d, timeinfo);
-    if(checkReply(timeinfo))
+    fprintf (stdout,"time=%s\n", asctime(timeinfo));
+    if(checkReply(timeinfo)==1)
       alarmDoor = d;
     /*if (checkReply(timeinfo)){
       {
