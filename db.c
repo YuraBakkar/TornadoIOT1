@@ -52,7 +52,7 @@ void saveAlarmDB(int d, struct tm *t){
 
 int checkReply(struct tm *t){
   int t1 = t->tm_hour*60+t->tm_min;
-  printf("\nlasttime=%d; d=%d\n",lastAlarmTime,lastAlarmTime+replyDelay);
+  printf("\nlasttime=%d; d=%d; t1=%d\n",lastAlarmTime,lastAlarmTime+replyDelay,t1);
   if ((lastAlarmTime==-1)||(lastAlarmTime+replyDelay<t1)){
     lastAlarmTime = t1;
     return 1;
