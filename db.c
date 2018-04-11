@@ -52,6 +52,7 @@ void saveAlarmDB(int d, struct tm *t){
 
 int checkReply(struct tm *t){
   int t1 = t->tm_hour*60+t->tm_min;
+  printf("\nlasttime=%d; d=%d\n",lastAlarmTime,lastAlarmTime+replyDelay);
   if ((lastAlarmTime==-1)||(lastAlarmTime+replyDelay<t1)){
     lastAlarmTime = t1;
     return 1;
@@ -383,8 +384,8 @@ int main(int argc, char **argv){
       fflush(stdout);
     }
     if (alarmDoor){
-      /*if ( openDoor[d-1] )*/{
-        if (strlen(phone1)){
+      {
+        /*if (strlen(phone1)){
           callPhone(1);//sendSMS(d,1);
           usleep(callDelay*1000000);
           cancelCall();
@@ -398,7 +399,7 @@ int main(int argc, char **argv){
           callPhone(2);//sendSMS(d,1);
           usleep(callDelay*1000000);
           cancelCall();
-        }
+        }*/
         alarmDoor = 0;
       }
     }
