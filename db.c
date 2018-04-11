@@ -267,10 +267,10 @@ void init_controller(){
   wiringPiISR (3, INT_EDGE_BOTH, &myInterrupt3);
   wiringPiISR (4, INT_EDGE_BOTH, &myInterrupt4);
   //pinMode(0,INPUT);
-  openDoor[0] = !digitalRead(0);
-  openDoor[1] = !digitalRead(1);
-  openDoor[2] = !digitalRead(3);
-  openDoor[3] = !digitalRead(4);
+  openDoor[0] = digitalRead(0);
+  openDoor[1] = digitalRead(1);
+  openDoor[2] = digitalRead(3);
+  openDoor[3] = digitalRead(4);
   fprintf(stdout,"1-%d; 2-%d; 3-%d; 4-%d\n\n",openDoor[0],openDoor[1],openDoor[2],openDoor[3]);
   //pullUpDnControl(0,PUD_UP);
   //pullUpDnControl(1,PUD_UP);
@@ -369,10 +369,10 @@ int main(int argc, char **argv){
   init_controller();
   initCOM();
   
-  checkDoors(1);
-  checkDoors(2);
-  checkDoors(3);
-  checkDoors(4);
+  //checkDoors(1);
+  //checkDoors(2);
+  //checkDoors(3);
+  //checkDoors(4);
   
   while(1){
     n = read( fd, buf, sizeof(buf) );
