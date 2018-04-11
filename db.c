@@ -389,9 +389,9 @@ int main(int argc, char **argv){
       printf("%s", buf);    
       fflush(stdout);
     }
-    if (alarmDoor){
+    if (alarmDoor!=0){
       {
-        /*if (strlen(phone1)){
+        if (strlen(phone1)){
           callPhone(1);//sendSMS(d,1);
           usleep(callDelay*1000000);
           cancelCall();
@@ -405,7 +405,7 @@ int main(int argc, char **argv){
           callPhone(2);//sendSMS(d,1);
           usleep(callDelay*1000000);
           cancelCall();
-        }*/
+        }
         alarmDoor = 0;
       }
     }
