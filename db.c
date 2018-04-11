@@ -90,7 +90,7 @@ void initCOM(){
   else
     fcntl(fd, F_SETFL, FNDELAY);
 
-  printf ( "In Open port fd = %i\n", fd); 
+  fprintf (stdout, "In Open port fd = %i\n", fd); 
 
   // Read the configureation of the port
 
@@ -131,7 +131,7 @@ void initCOM(){
   if ( tcsetattr( fd, TCSANOW, &options ) == -1 )
     printf ("1Error with tcsetattr = %s\n", strerror ( errno ) );
   else
-    printf ( "%s\n", "tcsetattr succeed" );
+    fprintf (stdout, "%s\n", "tcsetattr succeed" );
 
   fcntl(fd, F_SETFL, FNDELAY);
 
@@ -229,7 +229,7 @@ void checkDoors(int d){
     fprintf (stdout,"time=%s\n", asctime(timeinfo));
     if(checkReply(timeinfo)==1)
       alarmDoor = d;
-    printf("alarmDoor=%d\n",alarmDoor);
+    fprintf(stdout, "alarmDoor=%d\n",alarmDoor);
     /*if (checkReply(timeinfo)){
       {
         if (strlen(phone1)){
