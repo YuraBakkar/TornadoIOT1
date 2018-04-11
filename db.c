@@ -387,7 +387,7 @@ int main(int argc, char **argv){
         if (strlen(phone1)){
           sendSMS(alarmDoor,1);
           usleep(2000000);
-          callPhone(1);//sendSMS(d,1);
+          //callPhone(1);//sendSMS(d,1);
           usleep(callDelay*1000000);
           cancelCall();
         }
