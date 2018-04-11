@@ -44,7 +44,7 @@ char smsMessage[]={"alarm - "};
 void saveAlarmDB(int d, struct tm *t){
   char b[256];
   sprintf(b, "INSERT INTO log VALUES(null,%d,'%d-%02d-%02d %02d:%02d:%02d')",d,1850+50+t->tm_year,t->tm_mon+1,t->tm_mday,t->tm_hour,t->tm_min,t->tm_sec);
-  printf(stdout,"%s\n",&b);
+  //printf(stdout,"%s\n",&b);
   if (mysql_query(con, b)) {
     finish_with_error(con);
   }
@@ -387,7 +387,7 @@ int main(int argc, char **argv){
         if (strlen(phone1)){
           sendSMS(alarmDoor,1);
           usleep(2000000);
-          //callPhone(1);//sendSMS(d,1);
+          callPhone(1);//sendSMS(d,1);
           usleep(callDelay*1000000);
           cancelCall();
         }
