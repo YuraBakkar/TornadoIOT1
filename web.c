@@ -2,7 +2,7 @@
 #include "fcgio.h"
 #include <mysql.h>
 #include <stdlib.h>
-#include <stdio.h>
+#include <string.h>
 
 #define SIZE 256
 
@@ -43,8 +43,7 @@ int main(void) {
 	  if (mysql_query(con, "SELECT * FROM params;"))
     finish_with_error(con);
   
-  mysql_free_result(result);
-  result = mysql_store_result(con);
+  MYSQL_RES *result = mysql_store_result(con);
   
   if (result == NULL) 
   {
