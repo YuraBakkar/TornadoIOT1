@@ -2,7 +2,7 @@
 #include "fcgio.h"
 #include <mysql.h>
 #include <stdlib.h>
-#include <string>
+#include <string.h>
 
 #define SIZE 256
 
@@ -96,7 +96,7 @@ int main(void) {
 		{ 
 			cout << "<tr>";
 			cout << "<td>";
-			int doors = stoi(row[1]);
+			int doors = atoi(row[1]);
 			switch (doors) {
 				case 1:
 					cout << doorName1;
