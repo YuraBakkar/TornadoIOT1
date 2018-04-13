@@ -3,9 +3,16 @@
 #include <mysql.h>
 #include <stdlib.h>
 
+#define SIZE 256
+
 using namespace std;
 
 MYSQL *con;
+
+char doorName1[SIZE];
+char doorName2[SIZE];
+char doorName3[SIZE];
+char doorName4[SIZE];
 
 void finish_with_error(MYSQL *con){
   cout << mysql_error(con);
@@ -32,6 +39,29 @@ int main(void) {
 		finish_with_error(con);
 	}
 	
+	  if (mysql_query(con, "SELECT * FROM params;"))
+    finish_with_error(con);
+  
+  mysql_free_result(result);
+  result = mysql_store_result(con);
+  
+  if (result == NULL) 
+  {
+      finish_with_error(con);
+  }
+
+  int num_fields = mysql_num_fields(result);
+
+  MYSQL_ROW row;
+  
+  while ((row = mysql_fetch_row(result))) 
+  { 
+    strcpy(doorName1, row[5]);
+    strcpy(doorName2, row[6]);
+    strcpy(doorName3, row[7]);
+    strcpy(doorName4, row[8]);    
+  }
+
 	//////////////////////////////////////////////////////////////////////////
 	
 
@@ -65,7 +95,22 @@ int main(void) {
 		while ((row = mysql_fetch_row(result))) 
 		{ 
 			cout << "<tr>";
-			cout << "<td>" << row[1] << "</td><td>" << row[2] << "</td>"; 
+			cout << "<td>";
+			switch (row[1]) {
+				case 1:
+					cout << doorName1;
+					break;
+				case 2:
+					cout << doorName2;
+					break;
+				case 3:
+					cout << doorName3;
+					break;
+				case 4:
+					cout << doorName4;
+					break;
+			}
+			cout << "</td><td>" << row[2] << "</td>"; 
 			cout << "</tr>\n";
 		}
 		cout << "</table></body>\n"
