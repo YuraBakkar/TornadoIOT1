@@ -2,6 +2,7 @@
 #include "fcgio.h"
 #include <mysql.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #define SIZE 256
 
