@@ -18,6 +18,10 @@ int pins[] = {
   0,1,3,4
 };
 
+int days[] = {
+  1,1,1,1,1,1,1
+};
+
 time_t rawtime, time1, time2;
 struct tm * timeinfo;
 struct tm tm1;
@@ -69,6 +73,8 @@ int checkTime(struct tm *t){
   //time ( &rawtime );
   //timeinfo = localtime ( &rawtime );
   //printf("%d:%d:%d\n",t->tm_hour,t->tm_min,t->tm_sec);
+  if (days[t->tm_wday]==0) 
+    return 1;
   if ((t->tm_hour<tm1.tm_hour) || 
       ((t->tm_hour==tm1.tm_hour) && (t->tm_min<tm1.tm_min)) || 
       ((t->tm_hour==tm1.tm_hour) && (t->tm_min==tm1.tm_min) && (t->tm_sec<=tm1.tm_sec)) ||
@@ -322,7 +328,7 @@ void init_db(MYSQL *con){
   if (nr == 0){
     if (mysql_query(con, "CREATE TABLE log(id INT NOT NULL AUTO_INCREMENT, door INT, dat DATETIME, PRIMARY KEY (ID));"))
       finish_with_error(con);
-    if (mysql_query(con, "CREATE TABLE params(Phone1 TEXT, Phone2 TEXT, Count INT, Time1 TIME, Time2 TIME, Door1 TEXT, Door2 TEXT, Door3 TEXT, Door4 TEXT);"))
+    if (mysql_query(con, "CREATE TABLE params(Phone1 TEXT, Phone2 TEXT, Count INT, Time1 TIME, Time2 TIME, Door1 TEXT, Door2 TEXT, Door3 TEXT, Door4 TEXT, day0 INT, day1 INT, day2 INT, day3 INT, day4 INT, day5 INT, day6 INT);"))
       finish_with_error(con);
     if (mysql_query(con, "INSERT INTO params VALUES ('+380667906811','',1,'08:00:00','20:00:00','door1','door2','door3','door4');"))
       finish_with_error(con);
@@ -354,7 +360,14 @@ void init_db(MYSQL *con){
     strcpy(doorName1, row[5]);
     strcpy(doorName2, row[6]);
     strcpy(doorName3, row[7]);
-    strcpy(doorName4, row[8]);    
+    strcpy(doorName4, row[8]); 
+    days[0] = atoi(row[9]);
+    days[1] = atoi(row[10]);
+    days[2] = atoi(row[11]);
+    days[3] = atoi(row[12]);
+    days[4] = atoi(row[13]);
+    days[5] = atoi(row[14]);
+    days[6] = atoi(row[15]);    
     fprintf(stdout,"ph1=%s, ph2=%s, count=%d, t1=%d:%d:%d, t2=%d:%d:%d\nd1=%s, d2=%s, d3=%s, d4=%s\n",phone1,phone2,callCount,tm1.tm_hour,tm1.tm_min,tm1.tm_sec,tm2.tm_hour,tm2.tm_min,tm2.tm_sec,doorName1,doorName2,doorName3,doorName4);
   }
   
