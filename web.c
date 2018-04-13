@@ -31,10 +31,7 @@ int main(void) {
 	if (mysql_query(con, "use security;")){
 		finish_with_error(con);
 	}
-	if (mysql_query(con, "SELECT * FROM log WHERE dat+INTERVAL 7 DAY>NOW();"))
-		finish_with_error(con);
-  
-	MYSQL_RES *result = mysql_store_result(con);
+	
 	//////////////////////////////////////////////////////////////////////////
 	
 
@@ -60,6 +57,10 @@ int main(void) {
              << "  </head>\n"
              << "  <body>\n"
              << "    <h1>Hello!</h1>\n<table>";
+		if (mysql_query(con, "SELECT * FROM log WHERE dat+INTERVAL 7 DAY>NOW();"))
+		finish_with_error(con);
+  
+		MYSQL_RES *result = mysql_store_result(con);
 		MYSQL_ROW row;
 		while ((row = mysql_fetch_row(result))) 
 		{ 
