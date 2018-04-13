@@ -410,6 +410,7 @@ int main(int argc, char **argv){
       }
     }
     //delay(100);
+    usleep(1000);
   }
   
   close_db(con);
