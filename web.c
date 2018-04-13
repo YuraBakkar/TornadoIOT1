@@ -96,7 +96,8 @@ int main(void) {
 		{ 
 			cout << "<tr>";
 			cout << "<td>";
-			switch (row[1]) {
+			int doors = stoi(row[1]);
+			switch (doors) {
 				case 1:
 					cout << doorName1;
 					break;
