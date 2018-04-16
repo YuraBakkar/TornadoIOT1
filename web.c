@@ -61,7 +61,7 @@ int main(void) {
     strcpy(doorName3, row[7]);
     strcpy(doorName4, row[8]);    
   }
-
+	mysql_close(con);
 	//////////////////////////////////////////////////////////////////////////
 	
 
@@ -87,6 +87,17 @@ int main(void) {
              << "  </head>\n"
              << "  <body>\n"
              << "    <h1>Hello!</h1>\n<table>";
+		con = mysql_init(NULL);
+	if (con == NULL){
+		cout << mysql_error(con);
+		exit(1);
+	}
+	if (mysql_real_connect(con, "localhost", "root", "qwopaskl", NULL, 0, NULL, 0) == NULL){
+		finish_with_error(con);
+	}
+	if (mysql_query(con, "use security;")){
+		finish_with_error(con);
+	}
 		if (mysql_query(con, "SELECT * FROM log WHERE dat+INTERVAL 7 DAY>NOW();"))
 		finish_with_error(con);
   
@@ -117,11 +128,10 @@ int main(void) {
 		cout << "</table></body>\n"
              << "</html>\n";
 
+		mysql_close(con);
         // Note: the fcgi_streambuf destructor will auto flush
     }
 
-	mysql_close(con);
-	
     // restore stdio streambufs
     cin.rdbuf(cin_streambuf);
     cout.rdbuf(cout_streambuf);
