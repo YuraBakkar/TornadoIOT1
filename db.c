@@ -418,7 +418,7 @@ int main(int argc, char **argv){
   init_db(con);
   init_controller();
   initCOM();
-  
+  initTimer();
   //checkDoors(1);
   //checkDoors(2);
   //checkDoors(3);
