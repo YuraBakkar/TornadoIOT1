@@ -64,6 +64,7 @@ void timer_handler (int signum){
       checkDoors(i+1);
   }
   fprintf(stdout,"tick...\n",d);
+  fflush(stdout);
 }
 
 void initTimer(){
