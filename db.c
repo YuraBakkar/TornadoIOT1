@@ -63,6 +63,7 @@ void timer_handler (int signum){
     if (d==1) 
       checkDoors(i+1);
   }
+  fprintf(stdout,"tick...\n",d);
 }
 
 void initTimer(){
