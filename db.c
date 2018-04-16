@@ -1,4 +1,5 @@
 //#include <my_global.h>
+#include <signal.h>
 #include <stdio.h>
 #include <mysql.h>
 #include <wiringPi.h>
@@ -13,6 +14,7 @@
 #include <unistd.h>
 
 #define SIZE 256
+#define TIMER_INTERVAL 30*60;//in seconds
 
 int pins[] = {
   0,1,3,4
@@ -48,6 +50,34 @@ int alarmDoor = 0;
 MYSQL *con;
 
 char smsMessage[]={"alarm - "};
+
+struct sigaction sa;
+struct itimerval timer;
+
+void timer_handler (int signum){
+  int d;
+  for (int i=0;i<4;i++){
+    d = digitalRead(pins[i]);
+    if (d==1) 
+      checkDoors(i+1);
+  }
+}
+
+void initTimer(){
+  memset (&sa, 0, sizeof (sa));
+  sa.sa_handler = &timer_handler;
+  sigaction (SIGVTALRM, &sa, NULL);
+
+  /* Configure the timer to expire after 1 sec... */
+  timer.it_value.tv_sec = TIMER_INTERVAL;
+  timer.it_value.tv_usec = 0;
+  /* ... and every 1000 msec after that. */
+  timer.it_interval.tv_sec = TIMER_INTERVAL;
+  timer.it_interval.tv_usec = 0;
+  /* Start a virtual timer. It counts down whenever this process is
+  *    executing. */
+  setitimer (ITIMER_VIRTUAL, &timer, NULL);
+}
 
 void saveAlarmDB(int d, struct tm *t){
   char b[256];
