@@ -56,8 +56,9 @@ struct sigaction sa;
 struct itimerval timer;
 
 void timer_handler (int signum){
-  int d;
-  for (int i=0;i<4;i++){
+  int d,i;
+  //i=0;
+  for (i=0;i<4;i++){
     d = digitalRead(pins[i]);
     if (d==1) 
       checkDoors(i+1);
