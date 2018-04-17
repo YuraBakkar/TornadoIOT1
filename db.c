@@ -15,7 +15,7 @@
 #include <unistd.h>
 
 #define SIZE 256
-#define TIMER_INTERVAL 1*20;//in seconds
+#define TIMER_INTERVAL 1;//in minutes
 
 int pins[] = {
   0,1,3,4
@@ -255,7 +255,7 @@ void callPhone(int p){
 }
 
 void checkDoors(int d){
-  openDoor[d-1] = !openDoor[d-1];
+  //openDoor[d-1] = !openDoor[d-1];
   openDoor[d-1] = digitalRead(pins[d-1]);
   if ( openDoor[d-1]  )  
     fprintf(stdout,"Door %d is opened...",d);
@@ -422,7 +422,7 @@ int main(int argc, char **argv){
   init_db(con);
   init_controller();
   initCOM();
-  initTimer();
+  //initTimer();
   //checkDoors(1);
   //checkDoors(2);
   //checkDoors(3);
@@ -454,6 +454,20 @@ int main(int argc, char **argv){
           cancelCall();
         }
         alarmDoor = 0;
+      }
+    }
+    else {
+      time ( &rawtime );
+      timeinfo = localtime ( &rawtime );
+      
+      if (checkTime(timeinfo)==1){
+        int d,i;
+  
+        for (i=0;i<4;i++){
+        d = digitalRead(pins[i]);
+        if (d==1) 
+          checkDoors(i+1);
+        }
       }
     }
     //delay(100);
