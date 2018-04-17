@@ -460,7 +460,7 @@ int main(int argc, char **argv){
       time ( &rawtime );
       timeinfo = localtime ( &rawtime );
       
-      if (checkTime(timeinfo)==1){
+      if ((checkTime(timeinfo)==1)&&(checkReply(timeinfo)){
         int d,i;
   
         for (i=0;i<4;i++){
