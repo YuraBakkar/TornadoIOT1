@@ -42,7 +42,7 @@ char timeString2[9];
 
 int fd;  // COM File descriptor
 
-int lastAlarmTime = -1;
+int lastAlarmTime = -1, lastAlarmTime2 = -1;
 int replyDelay = 30;//in minutes
 int callDelay = 30;//in seconds
 
@@ -97,6 +97,17 @@ int checkReply(struct tm *t){
   //printf("\nlasttime=%d; d=%d; t1=%d\n",lastAlarmTime,lastAlarmTime+replyDelay,t1);
   if ((lastAlarmTime==-1)||(lastAlarmTime+replyDelay<t1)){
     lastAlarmTime = t1;
+    return 1;
+  }
+  else
+    return 0;
+}
+
+int checkReply2(struct tm *t){
+  int t1 = t->tm_hour*60+t->tm_min;
+  //printf("\nlasttime=%d; d=%d; t1=%d\n",lastAlarmTime,lastAlarmTime+replyDelay,t1);
+  if ((lastAlarmTime2==-1)||(lastAlarmTime2+replyDelay<t1)){
+    lastAlarmTime2 = t1;
     return 1;
   }
   else
@@ -460,7 +471,7 @@ int main(int argc, char **argv){
       time ( &rawtime );
       timeinfo = localtime ( &rawtime );
       
-      if ((checkTime(timeinfo)==1)&&(checkReply(timeinfo)==1)){
+      if ((checkTime(timeinfo)==1)&&(checkReply2(timeinfo)==1)){
         int d,i;
   
         for (i=0;i<4;i++){
