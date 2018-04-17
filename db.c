@@ -122,7 +122,7 @@ int checkTime(struct tm *t){
 }
 
 void initCOM(){
-  fd = open("/dev/ttyS3", O_RDWR | O_NOCTTY | O_NDELAY);
+  fd = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_NDELAY);
   if (fd == -1)
   {
     perror("open_port: Unable to open /dev/ttyUSB0 - ");
@@ -139,8 +139,8 @@ void initCOM(){
 
   /* SEt Baud Rate */
 
-  cfsetispeed( &options, B115200 );
-  cfsetospeed( &options, B115200 );
+  cfsetispeed( &options, B9600 );
+  cfsetospeed( &options, B9600 );
 
   //I don't know what this is exactly
 
