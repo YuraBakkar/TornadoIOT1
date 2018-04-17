@@ -15,7 +15,7 @@
 #include <unistd.h>
 
 #define SIZE 256
-#define TIMER_INTERVAL 30*60;//in seconds
+#define TIMER_INTERVAL 1*20;//in seconds
 
 int pins[] = {
   0,1,3,4
