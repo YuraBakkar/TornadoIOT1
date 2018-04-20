@@ -42,46 +42,15 @@ char timeString2[9];
 
 int fd;  // COM File descriptor
 
-int lastAlarmTime = -1, lastAlarmTime2 = -1;
+int lastAlarmTime[] = {-1,-1,-1,-1}, lastAlarmTime2[] = {-1,-1,-1,-1};
 int replyDelay = 30;//in minutes
 int callDelay = 30;//in seconds
 
-int alarmDoor = 0;
+int alarmDoor[] = {0,0,0,0};
 
 MYSQL *con;
 
 char smsMessage[]={"alarm - "};
-
-struct sigaction sa;
-struct itimerval timer;
-
-void timer_handler (int signum){
-  int d,i;
-  //i=0;
-  for (i=0;i<4;i++){
-    d = digitalRead(pins[i]);
-    if (d==1) 
-      checkDoors(i+1);
-  }
-  fprintf(stdout,"tick...\n",d);
-  fflush(stdout);
-}
-
-void initTimer(){
-  memset (&sa, 0, sizeof (sa));
-  sa.sa_handler = &timer_handler;
-  sigaction (SIGVTALRM, &sa, NULL);
-
-  /* Configure the timer to expire after 1 sec... */
-  timer.it_value.tv_sec = TIMER_INTERVAL;
-  timer.it_value.tv_usec = 0;
-  /* ... and every 1000 msec after that. */
-  timer.it_interval.tv_sec = TIMER_INTERVAL;
-  timer.it_interval.tv_usec = 0;
-  /* Start a virtual timer. It counts down whenever this process is
-  *    executing. */
-  setitimer (ITIMER_VIRTUAL, &timer, NULL);
-}
 
 void saveAlarmDB(int d, struct tm *t){
   char b[256];
@@ -92,22 +61,22 @@ void saveAlarmDB(int d, struct tm *t){
   }
 }
 
-int checkReply(struct tm *t){
+int checkReply(struct tm *t, int d){
   int t1 = t->tm_hour*60+t->tm_min;
   //printf("\nlasttime=%d; d=%d; t1=%d\n",lastAlarmTime,lastAlarmTime+replyDelay,t1);
-  if ((lastAlarmTime==-1)||(lastAlarmTime+replyDelay<t1)){
-    lastAlarmTime = t1;
+  if ((lastAlarmTime[d-1]==-1)||(lastAlarmTime[d-1]+replyDelay<t1)){
+    lastAlarmTime[d-1] = t1;
     return 1;
   }
   else
     return 0;
 }
 
-int checkReply2(struct tm *t){
+int checkReply2(struct tm *t, int d){
   int t1 = t->tm_hour*60+t->tm_min;
   //printf("\nlasttime=%d; d=%d; t1=%d\n",lastAlarmTime,lastAlarmTime+replyDelay,t1);
-  if ((lastAlarmTime2==-1)||(lastAlarmTime2+replyDelay<t1)){
-    lastAlarmTime2 = t1;
+  if ((lastAlarmTime2[d-1]==-1)||(lastAlarmTime2[d-1]+replyDelay<t1)){
+    lastAlarmTime2[d-1] = t1;
     return 1;
   }
   else
@@ -278,9 +247,9 @@ void checkDoors(int d){
   if (checkTime(timeinfo)==1){
     saveAlarmDB(d, timeinfo);
     fprintf (stdout,"time=%s\n", asctime(timeinfo));
-    if(checkReply(timeinfo)==1)
-      alarmDoor = d;
-    fprintf(stdout, "alarmDoor=%d\n",alarmDoor);
+    if(checkReply(timeinfo,d)==1)
+      alarmDoor[d-1] = d;
+    fprintf(stdout, "alarmDoor=%d\n",alarmDoor[d-1]);
     /*if (checkReply(timeinfo)){
       {
         if (strlen(phone1)){
@@ -427,7 +396,7 @@ void close_db(MYSQL *con){
 
 int main(int argc, char **argv){
   /*MYSQL **/con = mysql_init(NULL);
-  int n;
+  int n,i,d,j;
   char buf[1000]={"\0"};
   
   init_db(con);
@@ -447,37 +416,36 @@ int main(int argc, char **argv){
       printf("%s", buf);    
       fflush(stdout);
     }
-    if (alarmDoor!=0){
+    for(j=0;j<4;j++)
+    if (alarmDoor[j]!=0){
       {
         if (strlen(phone1)){
           callPhone(1);//sendSMS(d,1);
           usleep(callDelay*1000000);
           cancelCall();
           usleep(2000000);
-          sendSMS(alarmDoor,1);
+          sendSMS(alarmDoor[j],1);
           usleep(2000000);
         }
         if (strlen(phone2)){
-          sendSMS(alarmDoor,2);
+          sendSMS(alarmDoor[j],2);
           usleep(2000000);
           callPhone(2);//sendSMS(d,1);
           usleep(callDelay*1000000);
           cancelCall();
         }
-        alarmDoor = 0;
+        alarmDoor[j] = 0;
       }
     }
     else {
       time ( &rawtime );
       timeinfo = localtime ( &rawtime );
       
-      if ((checkTime(timeinfo)==1)&&(checkReply2(timeinfo)==1)){
-        int d,i;
-  
+      if (checkTime(timeinfo)==1){
         for (i=0;i<4;i++){
-        d = digitalRead(pins[i]);
-        if (d==1) 
-          checkDoors(i+1);
+          d = digitalRead(pins[i]);
+          if ((d==1) &&(checkReply2(timeinfo,i+1)==1))
+            checkDoors(i+1);
         }
       }
     }
