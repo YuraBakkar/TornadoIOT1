@@ -247,7 +247,7 @@ void checkDoors(int d){
   if (checkTime(timeinfo)==1){
     saveAlarmDB(d, timeinfo);
     fprintf (stdout,"time=%s\n", asctime(timeinfo));
-    if(checkReply(timeinfo,d)==1)
+    if((openDoor[d-1]==1) || (checkReply(timeinfo,d)==1))
       alarmDoor[d-1] = d;
     fprintf(stdout, "alarmDoor=%d\n",alarmDoor[d-1]);
     /*if (checkReply(timeinfo)){
@@ -442,11 +442,11 @@ int main(int argc, char **argv){
       timeinfo = localtime ( &rawtime );
       
       if (checkTime(timeinfo)==1){
-        for (i=0;i<4;i++){
-          d = digitalRead(pins[i]);
-          if ((d==1) &&(checkReply2(timeinfo,i+1)==1))
-            checkDoors(i+1);
-        }
+        //for (i=0;i<4;i++){
+          d = digitalRead(pins[j]);
+          if ((d==1) &&(checkReply2(timeinfo,j+1)==1))
+            checkDoors(j+1);
+        //}
       }
     }
     //delay(100);
