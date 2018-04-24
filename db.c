@@ -247,7 +247,7 @@ void checkDoors(int d){
   if (checkTime(timeinfo)==1){
     saveAlarmDB(d, timeinfo);
     fprintf (stdout,"time=%s\n", asctime(timeinfo));
-    if((openDoor[d-1]==1) || (checkReply(timeinfo,d)==1))
+    if((openDoor[d-1]==1) && (checkReply(timeinfo,d)==1))
       alarmDoor[d-1] = d;
     fprintf(stdout, "alarmDoor=%d\n",alarmDoor[d-1]);
     /*if (checkReply(timeinfo)){
